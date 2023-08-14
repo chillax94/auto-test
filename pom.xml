@@ -4,18 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.auto_test</groupId>
-    <artifactId>auto_test</artifactId>
+    <groupId>com.auto-test</groupId>
+    <artifactId>auto-test</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>auto_common</module>
-        <module>auto_common_model</module>
-        <module>auto_company</module>
-        <module>auto_system</module>
+        <module>auto-common</module>
+        <module>auto-common-model</module>
+        <module>auto-company</module>
+        <module>auto-system</module>
     </modules>
 
     <packaging>pom</packaging>
-    <name>auto_test</name>
+    <name>auto-test</name>
     <description>测试管理系统</description>
 
     <parent>
