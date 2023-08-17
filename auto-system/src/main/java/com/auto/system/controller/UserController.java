@@ -5,7 +5,6 @@ import com.auto.common.entity.PageResult;
 import com.auto.common.entity.Result;
 import com.auto.common.entity.ResultCode;
 
-import com.auto.common.exception.CommonException;
 import com.auto.common.utils.JwtUtils;
 import com.auto.common.utils.PermissionConstants;
 import com.auto.domain.system.Permission;
@@ -19,7 +18,6 @@ import com.auto.system.service.UserService;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,11 +44,11 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/user/assignRoles", method = RequestMethod.PUT)
     public Result assignRoles(@RequestBody Map<String,Object> map) {
-        //1.获取被分配的用户id
+        //获取被分配的用户id
         String userId = (String) map.get("id");
-        //2.获取到角色的id列表
+        //获取到角色的id列表
         List<String> roleIds = (List<String>) map.get("roleIds");
-        //3.调用service完成角色分配
+        //调用service完成角色分配
         userService.assignRoles(userId,roleIds);
         return new Result(ResultCode.SUCCESS);
     }
@@ -60,12 +58,12 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public Result save(@RequestBody User user) {
-        //1.设置保存的企业id
+        //设置保存的企业id
         user.setCompanyId(companyId);
         user.setCompanyName(companyName);
-        //2.调用service完成保存企业
+        //调用service完成保存企业
         userService.save(user);
-        //3.构造返回结果
+        //构造返回结果
         return new Result(ResultCode.SUCCESS);
     }
 
@@ -75,11 +73,11 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public Result findAll(int page, int size, @RequestParam Map map) {
-        //1.获取当前的企业id
+        //获取当前的企业id
         map.put("companyId",companyId);
-        //2.完成查询
+        //完成查询
         Page<User> pageUser = userService.findAll(map,page,size);
-        //3.构造返回结果
+        //构造返回结果
         PageResult pageResult = new PageResult(pageUser.getTotalElements(),pageUser.getContent());
         return new Result(ResultCode.SUCCESS, pageResult);
     }
@@ -100,9 +98,9 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
     public Result update(@PathVariable(value = "id") String id, @RequestBody User user) {
-        //1.设置修改的部门id
+        //设置修改的部门id
         user.setId(id);
-        //2.调用service更新
+        //调用service更新
         userService.update(user);
         return new Result(ResultCode.SUCCESS);
     }
@@ -119,7 +117,7 @@ public class UserController extends BaseController {
 
     /**
      * 用户登录
-     *  1.通过service根据mobile查询用户
+     *  1.通过service根据username查询用户
      *  2.比较password
      *  3.生成jwt信息
      *
@@ -133,8 +131,7 @@ public class UserController extends BaseController {
         if(user == null || !user.getPassword().equals(password)) {
             return new Result(ResultCode.MOBILEORPASSWORDERROR);
         }else {
-            //登录成功
-            //api权限字符串
+            //登录成功, api权限字符串
             StringBuilder sb = new StringBuilder();
             //获取到所有的可访问API权限
             for (Role role : user.getRoles()) {
